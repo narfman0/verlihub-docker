@@ -13,6 +13,7 @@ RUN wget https://github.com/Verlihub/verlihub/archive/1.3.0.0.zip && \
  unzip 1.3.0.0.zip && \
  cd verlihub-1.3.0.0 && mkdir -p build && cd build && \
  cmake .. && make && make install
-RUN rsync -avz /verlihub/* / # unsure why make install doesnt cp to /usr/local, but this fixes it
-CMD ["vh"]
+RUN echo "/verlihub/usr/local/lib" > /etc/ld.so.conf.d/verlihub.conf && ldconfig # so not found fix
+RUN rsync -avz /verlihub/* / # make isntall didnt copy, and we need bin/so/share files
+CMD ["verlihub"]
 EXPOSE 4111/tcp
