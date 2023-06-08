@@ -12,6 +12,7 @@ RUN apt-get update && \
 RUN wget https://github.com/Verlihub/verlihub/archive/1.3.0.0.zip && \
  unzip 1.3.0.0.zip && \
  cd verlihub-1.3.0.0 && mkdir -p build && cd build && \
- cmake .. && make && make install && ldconfig
-CMD ["verlihub"]
+ cmake .. && make && make install
+RUN rsync -avz /verlihub/* / # unsure why make install doesnt cp to /usr/local, but this fixes it
+CMD ["vh"]
 EXPOSE 4111/tcp
